@@ -1,0 +1,10 @@
+spring.application.name=JWTSecuritySpring
+spring.datasource.url=jdbc:postgresql://localhost:5432/title_bd
+spring.datasource.username=postgres
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# JWT secret key
+security.jwt.secret-key=hIKMt+S/TLN60SngYKx32HEEHdGBPuNeXYXmfjf/psU=adsfafsd
+security.jwt.expiration-time=3600000
