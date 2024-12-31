@@ -3,6 +3,7 @@ package ru.viktorgezz.JWTSecuritySpring.model;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.viktorgezz.JWTSecuritySpring.util.Role;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,6 +21,8 @@ public class Account implements UserDetails {
 
     @Column(nullable = false)
     private String password;
+
+    private Role role;
 
     public Account() {
     }
@@ -62,6 +65,14 @@ public class Account implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Long getId() {
