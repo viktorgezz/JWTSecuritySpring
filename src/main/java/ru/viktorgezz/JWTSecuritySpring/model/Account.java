@@ -22,7 +22,7 @@ public class Account implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    private Role role;
+//    private Role role;
 
     public Account() {
     }
@@ -67,13 +67,13 @@ public class Account implements UserDetails {
         return password;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
+//    public Role getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(Role role) {
+//        this.role = role;
+//    }
 
     public Long getId() {
         return id;

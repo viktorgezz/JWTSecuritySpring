@@ -3,6 +3,7 @@ package ru.viktorgezz.JWTSecuritySpring.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,11 +29,11 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAll());
     }
 
-    @GetMapping("/account/{id}")
-    public ResponseEntity<Account> findAccount(@PathVariable Long id) {
+    @GetMapping("/account")
+    public ResponseEntity<Account> findAccount(Authentication authentication) {
         return ResponseEntity
                 .ok(accountService
-                        .findAccountById(id)
+                        .findAccountByLogin(authentication.getName())
                         .orElseThrow(
                                 () -> new CustomException("Аккаунт не найден", HttpStatus.BAD_REQUEST)));
     }

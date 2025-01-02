@@ -1,5 +1,5 @@
 document.getElementById("register-btn").addEventListener("click", () => {
-    window.location.href = "../html/register.html";
+    window.location.href = "../register";
 });
 
 document.getElementById("login-form").addEventListener("submit", async (e) => {
@@ -19,7 +19,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     if (response.ok) {
         const data = await response.json();
         localStorage.setItem("jwt", data.token);
-        window.location.href = "http://localhost:8080/accounts";
+        window.location.href = "http://localhost:4200/accounts";
     } else {
         alert("Login failed!");
     }

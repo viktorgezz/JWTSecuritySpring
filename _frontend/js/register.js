@@ -14,7 +14,7 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
 
     if (response.ok) {
         alert("Registration successful!");
-        window.location.href = "../html/login.html";
+        window.location.href = "../";
         localStorage.setItem("login", login); // Передача логина
     } else {
         alert("Registration failed!");
