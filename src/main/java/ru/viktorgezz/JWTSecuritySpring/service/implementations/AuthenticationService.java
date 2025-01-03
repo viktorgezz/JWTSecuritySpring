@@ -15,6 +15,7 @@ import ru.viktorgezz.JWTSecuritySpring.mapper.AccountMapper;
 import ru.viktorgezz.JWTSecuritySpring.model.Account;
 import ru.viktorgezz.JWTSecuritySpring.service.interfaces.JwtService;
 import ru.viktorgezz.JWTSecuritySpring.exception.CustomException;
+import ru.viktorgezz.JWTSecuritySpring.util.Role;
 
 import java.util.Optional;
 
@@ -51,7 +52,8 @@ public class AuthenticationService {
                         accountService.save(
                                 new Account(
                                         inputAccount.getLogin(),
-                                        passwordEncoder.encode(inputAccount.getPassword()))
+                                        passwordEncoder.encode(inputAccount.getPassword()),
+                                        Role.ROLE_USER)
                         )
                 )
         );

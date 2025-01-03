@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import ru.viktorgezz.JWTSecuritySpring.model.Account;
 import ru.viktorgezz.JWTSecuritySpring.service.interfaces.JwtService;
 
 import java.security.Key;
@@ -29,7 +30,10 @@ public class JwtServiceImpl implements JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        if (userDetails instanceof Account customUserDetails) {
+            extraClaims.put("role", customUserDetails.getRole());
+        }
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
@@ -37,7 +41,6 @@ public class JwtServiceImpl implements JwtService {
             Map<String, Object> extractClaims,
             UserDetails userDetails,
             long expiration) {
-
         return Jwts.builder()
                 .setClaims(extractClaims)
                 .setSubject(userDetails.getUsername())

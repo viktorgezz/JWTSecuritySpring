@@ -1,5 +1,6 @@
 package ru.viktorgezz.JWTSecuritySpring.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,16 +27,16 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<RegisterResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto) {
+    public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
         return ResponseEntity
                 .ok(authenticationService
                         .signup(registerRequestDto)
                         .orElseThrow(
-                                () -> new CustomException("Ошибка регистрации", HttpStatus.BAD_REQUEST)));
+                                () -> new CustomException("Пользователь с таким именем уже существует", HttpStatus.BAD_REQUEST)));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody LoginAccountDto loginAccountDto) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@Valid @RequestBody LoginAccountDto loginAccountDto) {
         return ResponseEntity.ok(authenticationService.authenticate(loginAccountDto));
     }
 }

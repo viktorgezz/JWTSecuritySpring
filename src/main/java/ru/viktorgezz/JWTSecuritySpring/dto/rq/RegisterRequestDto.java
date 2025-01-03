@@ -1,9 +1,13 @@
 package ru.viktorgezz.JWTSecuritySpring.dto.rq;
 
+import jakarta.validation.constraints.Size;
+
 public class RegisterRequestDto {
 
+    @Size(min = 2, max = 50, message = "Имя пользователя должно содержать от 2 до 50 символов")
     private String login;
 
+    @Size(max = 255, message = "Длина пароля должна быть не более 255 символов")
     private String password;
 
     public String getLogin() {

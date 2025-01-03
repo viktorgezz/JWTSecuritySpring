@@ -2,6 +2,7 @@ package ru.viktorgezz.JWTSecuritySpring.model;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.viktorgezz.JWTSecuritySpring.util.Role;
 
@@ -22,19 +23,22 @@ public class Account implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-//    private Role role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     public Account() {
     }
 
-    public Account(String login, String password) {
+    public Account(String login, String password, Role role) {
         this.login = login;
         this.password = password;
+        this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
@@ -67,13 +71,13 @@ public class Account implements UserDetails {
         return password;
     }
 
-//    public Role getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(Role role) {
-//        this.role = role;
-//    }
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public Long getId() {
         return id;

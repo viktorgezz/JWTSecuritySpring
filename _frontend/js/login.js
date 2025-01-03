@@ -19,7 +19,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     if (response.ok) {
         const data = await response.json();
         localStorage.setItem("jwt", data.token);
-        window.location.href = "http://localhost:4200/accounts";
+        window.location.href = "http://localhost:4200/account";
     } else {
         alert("Login failed!");
     }

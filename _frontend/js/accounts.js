@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const apiUrl = "http://localhost:8080/accounts"; // URL для получения списка аккаунтов
+    const apiUrl = "http://localhost:8080/admin/accounts"; // URL для получения списка аккаунтов
     const accountsTable = document.getElementById("accounts-table");
     const token = localStorage.getItem("jwt"); // Извлекаем токен из localStorage
 
@@ -13,6 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Authorization": `Bearer ${token}`,
                 },
             });
+
+            if (response.status === 403) {
+                // Перенаправляем на страницу ошибки 403, которая не создана)
+                window.location.href = "/403.html";
+                return;
+            }
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);

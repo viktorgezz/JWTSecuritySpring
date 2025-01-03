@@ -1,6 +1,7 @@
 package ru.viktorgezz.JWTSecuritySpring.service.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.viktorgezz.JWTSecuritySpring.model.Account;
 import ru.viktorgezz.JWTSecuritySpring.repo.AccountRepository;
@@ -19,6 +20,7 @@ public class AccountService {
     }
 
     public Optional<Account> findAccountByLogin(String login) {
+//         String login0 = SecurityContextHolder.getContext().getAuthentication().getName();
         return accountRepository.findAccountByLogin(login);
     }
 
