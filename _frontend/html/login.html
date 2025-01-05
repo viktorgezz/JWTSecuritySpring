@@ -5,18 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <script src="../js/login.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            text-align: left;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 50px;
+        }
+
+        .btn.secondary {
+            background-color: #50504a;
+            margin-top: 1rem;
+            border-radius: 50px;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
 </head>
 <body>
-<h1>Login</h1>
-<form id="login-form">
-    <label for="login">Login:</label>
-    <input type="text" id="login" name="login" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <button type="submit">Login</button>
-</form>
-<button id="register-btn">Go to Registration</button>
+<div class="container">
+    <h1>С возвращением</h1>
+    <form id="login-form">
+        <label for="login">Логин:</label>
+        <input type="text" id="login" name="login" placeholder="Введите логин" required>
+
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+
+        <button type="submit" class="btn">Войти</button>
+    </form>
+    <button id="register-btn" class="btn secondary">Ещё нет аккаунта</button>
+</div>
 </body>
 </html>

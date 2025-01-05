@@ -13,10 +13,14 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
     });
 
     if (response.ok) {
-        alert("Registration successful!");
+        alert("Регистрация прошла успешно!");
         window.location.href = "../";
-        localStorage.setItem("login", login); // Передача логина
+        localStorage.setItem("login", login); // Сохранение логина
     } else {
-        alert("Registration failed!");
+        alert("Ошибка регистрации!");
     }
+});
+
+document.getElementById("login-btn").addEventListener("click", () => {
+    window.location.href = "../";
 });
