@@ -2,10 +2,10 @@ package ru.viktorgezz.JWTSecuritySpring.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class CustomException extends RuntimeException {
-    private HttpStatus status;
+public class CommonProjectException extends RuntimeException {
+    private final HttpStatus status;
 
-    public CustomException(String message, HttpStatus status) {
+    public CommonProjectException(String message, HttpStatus status) {
         super(message);
         this.status = status;
     }

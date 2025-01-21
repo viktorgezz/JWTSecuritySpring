@@ -13,7 +13,7 @@ import ru.viktorgezz.JWTSecuritySpring.dto.rs.AuthenticationResponse;
 import ru.viktorgezz.JWTSecuritySpring.dto.rq.LoginAccountDto;
 import ru.viktorgezz.JWTSecuritySpring.dto.rq.RegisterRequestDto;
 import ru.viktorgezz.JWTSecuritySpring.service.implementations.AuthenticationService;
-import ru.viktorgezz.JWTSecuritySpring.exception.CustomException;
+import ru.viktorgezz.JWTSecuritySpring.exception.CommonProjectException;
 import ru.viktorgezz.JWTSecuritySpring.util.ManipulationRqDto;
 
 @RequestMapping("/auth")
@@ -28,17 +28,29 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
+    public ResponseEntity<RegisterResponseDto> signUp(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
         ManipulationRqDto.removeSpacesBeginAndEnd(registerRequestDto);
         return ResponseEntity
                 .ok(authenticationService
-                        .signup(registerRequestDto)
+                        .saveAccount(registerRequestDto)
                         .orElseThrow(
-                                () -> new CustomException("Пользователь с таким именем уже существует", HttpStatus.BAD_REQUEST)));
+                                () -> new CommonProjectException(
+                                        "Пользователь с таким именем уже существует", HttpStatus.BAD_REQUEST
+                                )
+                        )
+                );
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> authenticate(@Valid @RequestBody LoginAccountDto loginAccountDto) {
-        return ResponseEntity.ok(authenticationService.authenticate(loginAccountDto));
+    @PostMapping("/signin")
+    public ResponseEntity<AuthenticationResponse> signIn(@Valid @RequestBody LoginAccountDto loginAccountDto) {
+        return ResponseEntity
+                .ok(authenticationService
+                        .authenticate(loginAccountDto)
+                        .orElseThrow(
+                                () -> new CommonProjectException(
+                                        "Пользователь с таким именем не найден", HttpStatus.NOT_FOUND
+                                )
+                        )
+                );
     }
 }

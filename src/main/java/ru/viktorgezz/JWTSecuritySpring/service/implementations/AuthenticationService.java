@@ -14,7 +14,7 @@ import ru.viktorgezz.JWTSecuritySpring.dto.rq.RegisterRequestDto;
 import ru.viktorgezz.JWTSecuritySpring.mapper.AccountMapper;
 import ru.viktorgezz.JWTSecuritySpring.model.Account;
 import ru.viktorgezz.JWTSecuritySpring.service.interfaces.JwtService;
-import ru.viktorgezz.JWTSecuritySpring.exception.CustomException;
+import ru.viktorgezz.JWTSecuritySpring.exception.CommonProjectException;
 import ru.viktorgezz.JWTSecuritySpring.util.Role;
 
 import java.util.Optional;
@@ -42,7 +42,7 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public Optional<RegisterResponseDto> signup(RegisterRequestDto inputAccount) {
+    public Optional<RegisterResponseDto> saveAccount(RegisterRequestDto inputAccount) {
         if (accountService.findAccountByLogin(inputAccount.getLogin()).isPresent()) {
             return Optional.empty();
         }
@@ -59,14 +59,23 @@ public class AuthenticationService {
         );
     }
 
-    public AuthenticationResponse authenticate(LoginAccountDto loginAccountDto) throws CustomException {
-        Account account = accountService
-                .findAccountByLogin(loginAccountDto.getLogin())
-                .orElseThrow(() -> new CustomException("Аккаунт не найден", HttpStatus.NOT_FOUND));
+    public Optional<AuthenticationResponse> authenticate(LoginAccountDto loginAccountDto)
+            throws CommonProjectException {
+        // получить аккаунт
+
+        // валидация
+        Optional<Account> accountOpt = accountService
+                .findAccountByLogin(loginAccountDto.getLogin());
+
+        if (accountOpt.isEmpty()) {
+            return Optional.empty();
+        }
+        Account account = accountOpt.get();
 
         if (!account.isEnabled()) {
-            throw new CustomException("Аккаунт не активирован", HttpStatus.BAD_REQUEST);
+            throw new CommonProjectException("Аккаунт не активирован", HttpStatus.BAD_REQUEST);
         }
+        // - валидация
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginAccountDto.getLogin(),
@@ -75,6 +84,6 @@ public class AuthenticationService {
 
         String jwtToken = jwtService.generateToken(account);
 
-        return new AuthenticationResponse(jwtToken, jwtService.getExpirationTime());
+        return Optional.of(new AuthenticationResponse(jwtToken, jwtService.getExpirationTime()));
     }
 }

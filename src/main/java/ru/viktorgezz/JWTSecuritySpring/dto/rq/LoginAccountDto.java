@@ -10,6 +10,14 @@ public class LoginAccountDto {
     @Size(max = 255, message = "Длина пароля должна быть до 255 символов")
     private String password;
 
+    public LoginAccountDto() {
+    }
+
+    public LoginAccountDto(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
     public String getLogin() {
         return login;
     }

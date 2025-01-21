@@ -6,6 +6,9 @@ public class RegisterResponseDto {
 
     private String login;
 
+    public RegisterResponseDto() {
+    }
+
     public RegisterResponseDto(Long id, String login) {
         this.id = id;
         this.login = login;

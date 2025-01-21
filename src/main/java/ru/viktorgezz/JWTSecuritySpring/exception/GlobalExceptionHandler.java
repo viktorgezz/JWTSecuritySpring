@@ -1,29 +1,40 @@
 package ru.viktorgezz.JWTSecuritySpring.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<String> handleResponseStatusAndBodyException(CustomException e) {
-        return new ResponseEntity<>(e.getMessage(), e.getStatus());
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(CommonProjectException.class)
+    public ResponseEntity<Map<String, String>> handleResponseStatusAndBodyException(CommonProjectException e) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("error", e.getMessage());
+
+        return ResponseEntity
+                .status(e.getStatus())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(errorMap);
     }
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-//        Map<String, String> errors = new HashMap<>();
-//        ex.getBindingResult().getFieldErrors().forEach(error -> {
-//            errors.put(error.getField(), error.getDefaultMessage());
-//        });
-//        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-//    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        Map<String, String> errorMap = new HashMap<>();
+
+        e.getBindingResult().getFieldErrors().forEach(error ->
+                errorMap.put(error.getField(), error.getDefaultMessage()));
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(errorMap);
+    }
 }
