@@ -14,7 +14,6 @@ import ru.viktorgezz.JWTSecuritySpring.dto.rq.LoginAccountDto;
 import ru.viktorgezz.JWTSecuritySpring.dto.rq.RegisterRequestDto;
 import ru.viktorgezz.JWTSecuritySpring.service.implementations.AuthenticationService;
 import ru.viktorgezz.JWTSecuritySpring.exception.CommonProjectException;
-import ru.viktorgezz.JWTSecuritySpring.util.ManipulationRqDto;
 
 @RequestMapping("/auth")
 @RestController
@@ -29,7 +28,6 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<RegisterResponseDto> signUp(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
-        ManipulationRqDto.removeSpacesBeginAndEnd(registerRequestDto);
         return ResponseEntity
                 .ok(authenticationService
                         .saveAccount(registerRequestDto)

@@ -61,21 +61,15 @@ public class AuthenticationService {
 
     public Optional<AuthenticationResponse> authenticate(LoginAccountDto loginAccountDto)
             throws CommonProjectException {
-        // получить аккаунт
-
-        // валидация
         Optional<Account> accountOpt = accountService
                 .findAccountByLogin(loginAccountDto.getLogin());
 
         if (accountOpt.isEmpty()) {
             return Optional.empty();
         }
-        Account account = accountOpt.get();
 
-        if (!account.isEnabled()) {
-            throw new CommonProjectException("Аккаунт не активирован", HttpStatus.BAD_REQUEST);
-        }
-        // - валидация
+        Account account = accountOpt.get();
+        isEnableAccount(account);
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginAccountDto.getLogin(),
@@ -85,5 +79,11 @@ public class AuthenticationService {
         String jwtToken = jwtService.generateToken(account);
 
         return Optional.of(new AuthenticationResponse(jwtToken, jwtService.getExpirationTime()));
+    }
+
+    private void isEnableAccount(Account account) {
+        if (!account.isEnabled()) {
+            throw new CommonProjectException("Аккаунт не активирован", HttpStatus.FORBIDDEN);
+        }
     }
 }
