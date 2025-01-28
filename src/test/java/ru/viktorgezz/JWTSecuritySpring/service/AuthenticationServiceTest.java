@@ -116,21 +116,4 @@ public class AuthenticationServiceTest {
         verify(accountService, times(1)).findAccountByLogin(loginAccountDto.getLogin());
         verify(authenticationManager, never()).authenticate(any(UsernamePasswordAuthenticationToken.class));
     }
-
-    // Добавить тест проверки, активирован ли аккаунт, при добавление подтверждения с почты.
-//    @Test
-//    void authenticate_WhenAccountIsDisabled_ShouldThrowCommonProjectException() {
-//        // Arrange
-//        when(account.isEnabled()).thenReturn(false);
-//        when(accountService.findAccountByLogin(loginAccountDto.getLogin())).thenReturn(Optional.of(account));
-//
-//        // Act & Assert
-//        CommonProjectException exception = assertThrows(CommonProjectException.class, () -> {
-//            authenticationService.authenticate(loginAccountDto);
-//        });
-//
-//        assertEquals("Аккаунт не активирован", exception.getMessage());
-//        verify(accountService, times(1)).findAccountByLogin(loginAccountDto.getLogin());
-//        verify(authenticationManager, never()).authenticate(any(UsernamePasswordAuthenticationToken.class));
-//    }
 }

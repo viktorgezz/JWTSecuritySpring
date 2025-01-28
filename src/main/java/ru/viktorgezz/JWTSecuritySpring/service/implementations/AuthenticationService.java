@@ -69,7 +69,6 @@ public class AuthenticationService {
         }
 
         Account account = accountOpt.get();
-        isEnableAccount(account);
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginAccountDto.getLogin(),
@@ -79,11 +78,5 @@ public class AuthenticationService {
         String jwtToken = jwtService.generateToken(account);
 
         return Optional.of(new AuthenticationResponse(jwtToken, jwtService.getExpirationTime()));
-    }
-
-    private void isEnableAccount(Account account) {
-        if (!account.isEnabled()) {
-            throw new CommonProjectException("Аккаунт не активирован", HttpStatus.FORBIDDEN);
-        }
     }
 }
